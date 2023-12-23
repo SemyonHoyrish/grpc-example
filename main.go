@@ -1,20 +1,38 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"sync"
+	"log"
+	"net"
 
 	pb "github.com/SemyonHoyrish/grpc-example/routes/user"
+	"google.golang.org/grpc"
 )
 
-type routeGuideServer struct {
-	pb.UnimplementedRouteGuideServer
-	savedFeatures []*pb.Feature // read-only after initialized
+type userService struct {
+	pb.UnimplementedUserServer
+}
 
-	mu         sync.Mutex // protects routeNotes
-	routeNotes map[string][]*pb.RouteNote
+func (s *userService) GetFeature(ctx context.Context, ID uint32) (*pb.UserResponse, error) {
+	return &pb.UserResponse{
+		ID:     ID,
+		Name:   "Test",
+		Email:  "test@test",
+		Status: "i am good",
+		Online: true,
+	}, nil
 }
 
 func main() {
-	fmt.Println("TEST")
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 5050))
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	s := grpc.NewServer()
+	pb.RegisterUserServer(s, &userService{})
+	log.Printf("server listening at %v", lis.Addr())
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
