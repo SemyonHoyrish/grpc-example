@@ -6,7 +6,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/SemyonHoyrish/grpc-example/routes/user"
+	pb "github.com/SemyonHoyrish/grpc-example/protos/routes/user"
 	"google.golang.org/grpc"
 )
 
