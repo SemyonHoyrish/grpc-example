@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option go_package = "github.com/SemyonHoyrish/grpc-example/routes/user";
+
+package user;
+
+service User {
+    rpc GetUser (UserRequest) returns (UserResponse);
+}
+
+message UserRequest {
+    uint32 ID = 1;
+    string Name = 2;
+    string Email = 3;
+}
+
+message UserResponse {
+    uint32 ID = 1;
+    string Name = 2;
+    string Email = 3;
+    string Status = 4;
+    bool Online = 5;
+}
+
