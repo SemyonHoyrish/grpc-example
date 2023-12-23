@@ -14,9 +14,9 @@ type userService struct {
 	pb.UnimplementedUserServer
 }
 
-func (s *userService) GetFeature(ctx context.Context, ID uint32) (*pb.UserResponse, error) {
+func (s *userService) GetUser(ctx context.Context, req *pb.UserRequest) (*pb.UserResponse, error) {
 	return &pb.UserResponse{
-		ID:     ID,
+		ID:     req.ID,
 		Name:   "Test",
 		Email:  "test@test",
 		Status: "i am good",
